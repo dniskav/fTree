@@ -25,3 +25,7 @@ export const jsx = {
     return element
   }
 }
+
+export function Fragment({ children }: { children: any }) {
+  return children
+}

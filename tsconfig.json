@@ -20,12 +20,13 @@
     "noFallthroughCasesInSwitch": true,
 
     "jsx": "react-jsx",
-    "jsxImportSource": "@",
+    "jsxImportSource": "@runtime",
 
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@runtime/*": ["src/app/fTree/jsx/runtime/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "src/app/fTree/jsx/runtime"]
 }
