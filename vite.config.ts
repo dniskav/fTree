@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
+  base: '/fTree/',
   resolve: {
     alias: {
       '@': new URL('./src', import.meta.url).pathname
