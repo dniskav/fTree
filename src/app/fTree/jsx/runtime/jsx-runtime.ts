@@ -4,25 +4,38 @@ declare global {
   }
 }
 
+let idCounter = 0
+export function generateFID() {
+  idCounter++
+  return 'fid_' + idCounter
+}
+
 export type Component = (props: Record<string, any>) => any
 
 export const jsx = {
   component(component: string | Component, props: Record<string, any> | null, ...children: any[]) {
+    const fid = generateFID()
+
     if (!props) props = {}
     props.children = children.flat(Infinity)
+    props.__fid = fid
 
-    if (typeof component === 'function') return component(props)
-
-    const element = document.createElement(component)
-    for (const [key, value] of Object.entries(props)) {
-      if (key === 'children') continue
-      else if (key === 'className') element.setAttribute('class', value)
-      else element.setAttribute(key, value)
+    if (typeof component === 'function') {
+      props['data-ftree-component'] = component.name
+      const vNode = component(props)
+      return vNode
     }
 
-    element.append(...props.children)
+    // const element = document.createElement(component)
+    // for (const [key, value] of Object.entries(props)) {
+    //   if (key === 'children') continue
+    //   else if (key === 'className') element.setAttribute('class', value)
+    //   else element.setAttribute(key, value)
+    // }
 
-    return element
+    // element.append(...props.children)
+
+    return { type: component, props, __fid: fid }
   }
 }
 
