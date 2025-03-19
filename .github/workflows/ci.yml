@@ -27,7 +27,7 @@ jobs:
           version: 8 # Especifica la versión de pnpm
 
       - name: 📂 Instalar dependencias
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: 🛠️ Construir el proyecto
         run: pnpm run build
