@@ -9,6 +9,11 @@ export default defineConfig({
       '@runtime': new URL('./src/app/fTree/jsx/runtime', url).pathname // 🔹 Alias para runtime JSX
     }
   },
+  css: {
+    modules: {
+      scopeBehaviour: 'local' // 🔹 Asegura que los estilos sean locales
+    }
+  },
   esbuild: {
     jsx: 'transform', // 🔹 Transforma JSX en llamadas a `jsx()`
     jsxDev: false, // 🔹 Desactiva modo desarrollo para optimización
