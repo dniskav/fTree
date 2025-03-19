@@ -1,14 +1,4 @@
-function Example() {
-  return (
-    <section className="test">
-      Hello, World!
-      <br />
-      <img src="https://placecats.com/300/200" alt="cat" />
-      <br />
-      <button onclick="alert('Hello, There!')">Click Me!</button>
-    </section>
-  )
-}
+import App from './app/App.tsx'
 
 const app = document.getElementById('app')
-app?.append(<Example />)
+app?.append(<App />)
