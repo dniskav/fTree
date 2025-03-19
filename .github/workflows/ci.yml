@@ -2,8 +2,8 @@ name: 🚀 Deploy to GitHub Pages
 
 on:
   push:
-    branches: ['master'] # 🔹 Se ejecuta en `master`
-  workflow_dispatch: # 🔹 Permite ejecución manual desde GitHub Actions
+    branches: ['master'] # 🔹 Ejecuta en `master`
+  workflow_dispatch: # 🔹 Permite ejecución manual desde GitHub
 
 permissions:
   contents: write
@@ -16,11 +16,14 @@ jobs:
       - name: 📥 Checkout del código
         uses: actions/checkout@v4
 
-      - name: ⚙️ Configurar Node.js
+      - name: ⚙️ Configurar Node.js y `pnpm`
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 20 # 🔹 Usa Node.js 20
           cache: 'pnpm'
+
+      - name: 📦 Instalar `pnpm`
+        run: corepack enable && corepack prepare pnpm@latest --activate # 🔹 Habilita `pnpm` usando Corepack
 
       - name: 📦 Instalar dependencias
         run: pnpm install --frozen-lockfile
@@ -33,5 +36,5 @@ jobs:
         with:
           branch: gh-pages # 🔹 Publica en `gh-pages`
           folder: dist # 🔹 Carpeta donde Vite genera el build
-          clean: true # 🔹 Elimina archivos viejos antes de subir nuevos
+          clean: true
           token: ${{ secrets.GITHUB_TOKEN }}
