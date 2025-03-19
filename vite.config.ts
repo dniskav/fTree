@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 const url = import.meta.url
 
 export default defineConfig({
+  base: '/fTree/',
   resolve: {
     alias: {
       '@': new URL('./src', url).pathname, // 🔹 Alias global para `src/`

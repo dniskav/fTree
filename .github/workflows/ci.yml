@@ -1,22 +1,37 @@
-name: Deploy to GitHub Pages
+name: 🚀 Deploy to GitHub Pages
 
 on:
   push:
-    branches: ['master']
-  workflow_dispatch:
+    branches: ['master'] # 🔹 Se ejecuta en `master`
+  workflow_dispatch: # 🔹 Permite ejecución manual desde GitHub Actions
+
+permissions:
+  contents: write
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: 📥 Checkout del código
         uses: actions/checkout@v4
 
-      - name: Deploy to GitHub Pages
+      - name: ⚙️ Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: 📦 Instalar dependencias
+        run: pnpm install --frozen-lockfile
+
+      - name: 🔨 Construir el proyecto con Vite
+        run: pnpm run build
+
+      - name: 🚀 Desplegar en GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: gh-pages # El branch donde se publica el sitio
-          folder: ./ # Cambia esto si tus archivos están en otra carpeta
-          clean: true # Elimina archivos antiguos antes de subir nuevos
+          branch: gh-pages # 🔹 Publica en `gh-pages`
+          folder: dist # 🔹 Carpeta donde Vite genera el build
+          clean: true # 🔹 Elimina archivos viejos antes de subir nuevos
           token: ${{ secrets.GITHUB_TOKEN }}
