@@ -1,3 +1,5 @@
+import { getFNode } from '../fTree'
+
 type JSXElement = {
   type: string
   props: {
@@ -8,7 +10,7 @@ type JSXElement = {
 
 export default function render(component: JSXElement | string, container: HTMLElement): void {
   const el = processHtmlTag(component)
-  console.log(el)
+  // console.log(el)
   container.appendChild(el)
 }
 
@@ -17,14 +19,14 @@ function processHtmlTag(tag: JSXElement | string): Node {
     return document.createTextNode(tag)
   }
 
-  console.log(tag.type)
+  // console.log(tag.type)
   const children = tag.props.children
   const props = tag.props
   const el = document.createElement(tag.type)
 
   processProps(el, props)
 
-  console.log(tag.props)
+  // console.log(tag.props)
 
   if (children) {
     if (typeof children === 'string') {
@@ -56,4 +58,25 @@ export function processProps(el: HTMLElement, props: Record<string, any>): void 
       el.setAttribute(key, value)
     }
   })
+}
+
+export function reRenderComponent(fid: string) {
+  const fNode = getFNode(fid)
+  if (!fNode || typeof fNode.type !== 'function') return
+
+  console.log(`🔄 Re-renderizando componente con fid: ${fid}`)
+
+  // Volver a ejecutar la función del componente con sus props actuales
+  const newVNode = fNode.type(fNode.props)
+
+  // Imprimir en consola para depuración
+  console.log('📌 Nuevo VNode generado:', newVNode)
+}
+
+export function createElement(vNode) {
+  let node = vNode
+  if (typeof vNode.type === 'function') {
+    node = vNode.type(vNode.props)
+  }
+  return processHtmlTag(node)
 }
